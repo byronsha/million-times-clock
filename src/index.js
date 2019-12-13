@@ -3,51 +3,13 @@ import ReactDOM from "react-dom";
 import { Box, Flex } from "@chakra-ui/core";
 
 import Clock from "./Clock";
-import { renderNumber, downLeft } from "./helpers";
-
-const initializeGrid = () => {
-  const rows = Array.from(Array(8).keys());
-  const columns = Array.from(Array(15).keys());
-
-  return rows.map(rowNumber =>
-    columns.map(columnNumber => ({
-      id: `${rowNumber}${columnNumber}`,
-      rowNumber,
-      columnNumber,
-      degreesA: 0,
-      degreesB: 0
-    }))
-  );
-};
+import { initializeGrid, renderNumber, downLeft } from "./helpers";
 
 const App = () => {
   const [grid, setGrid] = React.useState(initializeGrid());
   const [randomizeInterval, setRandomizeInterval] = React.useState(null);
 
-  const animate = () => {
-    const newGrid = grid.map(row =>
-      row.map(cell => ({
-        ...cell,
-        degreesA: 90 / (cell.rowNumber + 1),
-        degreesB: 180 / (cell.columnNumber + 1)
-      }))
-    );
-    setGrid(newGrid);
-  };
-
-  const randomizeNumbers = () => {
-    clearInterval(randomizeInterval);
-
-    setTime(Math.floor(Math.random() * 10000));
-
-    setRandomizeInterval(
-      setInterval(() => {
-        setTime(Math.floor(Math.random() * 10000));
-      }, 7500)
-    );
-  };
-
-  const setDigit = (startColumn, endColumn, number, gridToUpdate) => {
+  const setDigit = (startColumn, endColumn, number, gridToUpdate = null) => {
     const newGrid = (gridToUpdate || grid).map(row =>
       row.map(cell => {
         const { rowNumber } = cell;
@@ -83,7 +45,6 @@ const App = () => {
       .map(i => parseInt(i, 10));
 
     let newGrid = setDigit0(digitArray[0], grid);
-
     newGrid = setDigit1(digitArray[1], newGrid);
     newGrid = setDigit2(digitArray[2], newGrid);
     newGrid = setDigit3(digitArray[3], newGrid);
@@ -95,6 +56,29 @@ const App = () => {
     setGrid(initializeGrid());
   };
 
+  const animate = () => {
+    const newGrid = grid.map(row =>
+      row.map(cell => ({
+        ...cell,
+        degreesA: 90 / (cell.rowNumber + 1),
+        degreesB: 180 / (cell.columnNumber + 1)
+      }))
+    );
+    setGrid(newGrid);
+  };
+
+  const randomizeNumbers = () => {
+    clearInterval(randomizeInterval);
+
+    setTime(Math.floor(Math.random() * 10000));
+
+    setRandomizeInterval(
+      setInterval(() => {
+        setTime(Math.floor(Math.random() * 10000));
+      }, 7500)
+    );
+  };
+
   const handleChange = callback => e => {
     const value = parseInt(e.target.value, 10);
     if (!isNaN(value) && value > -1 && value < 10) {
@@ -103,15 +87,24 @@ const App = () => {
   };
 
   return (
-    <Box>
-      <Box mb={5}>
-        {grid.map((row, index) => (
-          <Flex key={index}>
-            {row.map(({ id, degreesA, degreesB }) => (
-              <Clock key={id} degreesA={degreesA} degreesB={degreesB} />
-            ))}
-          </Flex>
-        ))}
+    <Box bg="#eee">
+      <Box mb={3} textAlign="center">
+        <Box
+          my={3}
+          p={3}
+          bg="white"
+          display="inline-block"
+          borderRadius="4px"
+          boxShadow="1px 1px 3px #ccc"
+        >
+          {grid.map((row, index) => (
+            <Flex key={index}>
+              {row.map(({ id, degreesA, degreesB }) => (
+                <Clock key={id} degreesA={degreesA} degreesB={degreesB} />
+              ))}
+            </Flex>
+          ))}
+        </Box>
       </Box>
 
       <span>Digit 0</span>

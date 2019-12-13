@@ -470,7 +470,7 @@ const renderColon = cell => {
 };
 
 export const renderNumber = (number, ...args) => {
-  const [startColumn, endColumn, cell] = args;
+  const cell = args[2];
   if (!cell) return;
 
   const { columnNumber } = cell;
@@ -479,9 +479,6 @@ export const renderNumber = (number, ...args) => {
   }
   if (columnNumber === 7) {
     return renderColon(cell);
-  }
-  if (columnNumber < startColumn || columnNumber >= endColumn) {
-    return cell;
   }
 
   switch (number) {
@@ -508,4 +505,19 @@ export const renderNumber = (number, ...args) => {
     default:
       return cell;
   }
+};
+
+export const initializeGrid = () => {
+  const rows = Array.from(Array(8).keys());
+  const columns = Array.from(Array(15).keys());
+
+  return rows.map(rowNumber =>
+    columns.map(columnNumber => ({
+      id: `${rowNumber}${columnNumber}`,
+      rowNumber,
+      columnNumber,
+      degreesA: 0,
+      degreesB: 0
+    }))
+  );
 };
