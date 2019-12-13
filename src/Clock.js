@@ -41,6 +41,7 @@ const Half = styled(Box)`
 
   :first-of-type {
     background: black;
+    box-shadow: 1px 1px 3px #ccc;
   }
   :last-of-type {
     background: transparent;
