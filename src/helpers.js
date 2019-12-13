@@ -314,6 +314,7 @@ const renderSix = (startColumn, endColumn, cell) => {
 
   return cell;
 };
+
 const renderSeven = (startColumn, endColumn, cell) => {
   const { rowNumber, columnNumber } = cell;
   // column 1
@@ -352,6 +353,7 @@ const renderSeven = (startColumn, endColumn, cell) => {
 
   return cell;
 };
+
 const renderEight = (startColumn, endColumn, cell) => {
   const { rowNumber, columnNumber } = cell;
   // column 1
@@ -399,6 +401,7 @@ const renderEight = (startColumn, endColumn, cell) => {
 
   return cell;
 };
+
 const renderNine = (startColumn, endColumn, cell) => {
   const { rowNumber, columnNumber } = cell;
   // column 1
