@@ -53,6 +53,7 @@ const App = () => {
   };
 
   const reset = () => {
+    clearInterval(randomizeInterval);
     setGrid(initializeGrid());
   };
 
